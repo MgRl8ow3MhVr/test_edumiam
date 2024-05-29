@@ -1,16 +1,23 @@
 import { Task, UseTask, taskPrefix } from "./types";
 import { useState } from "react";
+import { initialTasks } from "./data";
 
-const initialTasks: Task[] = [
-  { id: 0, titre: "t1", estTerminee: false },
-  { id: 1, titre: "t2", estTerminee: false },
-];
-// Here initialTasks can be retrived from an imported function that gets tasks from the database
+// - data is a file where we can write interactions with a future database or api, for persistant data
+
+// notes : I choose here to create a custom hook to :
+// - keep the tasks in memory under the form of a state
+// - but to keep the logic separated from the view code
+// - And to have the view re-rendered anytime the tasks are modified, we needed to introduce them as a state at some point.
 
 const useTask = (): UseTask => {
-  const [tasks, setTasks] = useState(initialTasks);
-  const [idCount, setIdCount] = useState(2);
-  // Here idCount can be initialized to a count that is stored in the database
+  const initalTasks: Task[] = initialTasks();
+  const [tasks, setTasks] = useState(initalTasks);
+  // find the highest id
+  const initialCount = initalTasks.reduce(
+    (acc: number, t: Task) => (t.id > acc ? t.id : acc),
+    0
+  );
+  const [idCount, setIdCount] = useState(initialCount);
 
   const addTask = (newTaskTitle: string): void => {
     // new feature : all titles start with "Todo: "
@@ -24,7 +31,7 @@ const useTask = (): UseTask => {
     tasksCopy.push(newTask);
     setTasks(tasksCopy);
     setIdCount(idCount + 1);
-    // Here we can use an imported function that adds a task in a persistant database
+    // Here we can use an imported function from ./data that adds a task in a persistant database
   };
 
   const completeTask = (taskId: number): void => {
@@ -35,7 +42,7 @@ const useTask = (): UseTask => {
       }
     });
     setTasks(tasksCopy);
-    // Here we can use an imported function that updates a task in the database
+    // Here we can use an imported function from ./data that updates a task in the database
   };
 
   return { tasks, addTask, completeTask };

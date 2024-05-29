@@ -8,8 +8,9 @@ function App() {
   return (
     <div className="taskContainer">
       <h1>task manager</h1>
-      {tasks.map((task) => (
+      {tasks.map((task, i) => (
         <div
+          key={i}
           onClick={() => {
             completeTask(task.id);
           }}
