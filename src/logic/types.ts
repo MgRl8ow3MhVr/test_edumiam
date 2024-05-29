@@ -10,4 +10,5 @@ export interface UseTask {
   completeTask: (taskId: number) => void;
 }
 
+// should be in a proper config file, this is not a type
 export const taskPrefix: string = "Todo: ";
