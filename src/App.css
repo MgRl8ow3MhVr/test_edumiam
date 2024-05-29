@@ -1,0 +1,22 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.finishedTask {
+  background-color: rgb(199, 200, 199);
+  color: rgb(70, 68, 68);
+}
+.notFinishedTask {
+  background-color: rgb(112, 140, 115);
+  color: green;
+  cursor: pointer;
+}
+
+.taskContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
